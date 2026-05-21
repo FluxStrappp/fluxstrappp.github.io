@@ -1,0 +1,17 @@
+{
+  "name": "FluxStrap - Roblox Performance Launcher",
+  "short_name": "FluxStrap",
+  "description": "Roblox performance launcher for FPS, graphics, FastFlags, profiles, repair tools, and optimization.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05000d",
+  "theme_color": "#7c3aed",
+  "icons": [
+    {
+      "src": "flux.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
