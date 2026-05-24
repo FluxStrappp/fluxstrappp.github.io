@@ -16,17 +16,17 @@
 <link rel="canonical" href="https://fluxstrappp.github.io/" />
 
 
-<link rel="preload" as="image" href="/flux.png?v=30" imagesrcset="/flux-1024.png?v=30 1024w, /flux-2048.png?v=30 2048w, /flux-4096.png?v=30 4096w" imagesizes="(max-width: 1050px) 90vw, 610px">
+<link rel="preload" as="image" href="/flux-2048.png?v=31" imagesrcset="/flux-1024.png?v=31 1024w, /flux-2048.png?v=31 2048w" imagesizes="(max-width: 1050px) 90vw, 610px">
 
 <!-- Favicon / Site Icon -->
-<link rel="icon" href="/favicon.ico?v=30" type="image/x-icon" sizes="any">
-<link rel="shortcut icon" href="/favicon.ico?v=30" type="image/x-icon">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=30">
+<link rel="icon" href="/favicon.ico?v=31" type="image/x-icon" sizes="any">
+<link rel="shortcut icon" href="/favicon.ico?v=31" type="image/x-icon">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=31">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=30">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=30">
-<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=30">
-<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png?v=30">
-<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png?v=30">
+<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=31">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png?v=31">
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png?v=31">
 <!-- Favicon / Site Icon -->
 
 <meta property="og:type" content="website" />
@@ -34,15 +34,15 @@
 <meta property="og:title" content="FluxStrap - Roblox Performance Launcher" />
 <meta property="og:description" content="Launch Roblox faster with FPS, graphics, FastFlags, profiles, repair tools, and custom optimization in one clean panel." />
 <meta property="og:url" content="https://fluxstrappp.github.io/" />
-<meta property="og:image" content="https://fluxstrappp.github.io/flux.png?v=30" />
-<meta property="og:image:secure_url" content="https://fluxstrappp.github.io/flux.png?v=30" />
+<meta property="og:image" content="https://fluxstrappp.github.io/flux.png?v=31" />
+<meta property="og:image:secure_url" content="https://fluxstrappp.github.io/flux.png?v=31" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:alt" content="FluxStrap Logo" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="FluxStrap - Roblox Performance Launcher" />
 <meta name="twitter:description" content="A clean Roblox performance launcher for FPS, graphics, FastFlags, favorite game profiles, and optimization tools." />
-<meta name="twitter:image" content="https://fluxstrappp.github.io/flux.png?v=30" />
+<meta name="twitter:image" content="https://fluxstrappp.github.io/flux.png?v=31" />
 
 <script type="application/ld+json">
 {
@@ -53,7 +53,7 @@
   "operatingSystem": "Windows",
   "url": "https://fluxstrappp.github.io/",
   "downloadUrl": "https://github.com/FluxStrappp/fluxstrappp.github.io/releases/latest/download/FluxStrap.exe",
-  "image": "https://fluxstrappp.github.io/flux.png?v=30",
+  "image": "https://fluxstrappp.github.io/flux.png?v=31",
   "description": "FluxStrap is a Roblox performance launcher for FPS, graphics, FastFlags, favorite game profiles, Roblox repair tools, and custom optimization profiles.",
   "offers": {
     "@type": "Offer",
@@ -426,12 +426,14 @@ h1 {
   text-shadow: 0 0 16px rgba(192,132,252,.55);
 }
 
-/* Main logo */
+/* Main logo - 60 FPS optimized */
 .logo-area {
   position: relative;
   display: grid;
   place-items: center;
   min-height: 640px;
+  contain: layout paint;
+  isolation: isolate;
 }
 
 .logo-glow {
@@ -440,8 +442,12 @@ h1 {
   height: 650px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(168,85,247,.32), transparent 66%);
-  filter: blur(20px);
-  animation: pulse 4s ease-in-out infinite;
+  filter: blur(16px);
+  opacity: .9;
+  animation: logoGlow60 5.5s cubic-bezier(.45, 0, .55, 1) infinite;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  pointer-events: none;
 }
 
 .logo-ring {
@@ -453,32 +459,69 @@ h1 {
   box-shadow:
     0 0 35px rgba(168,85,247,.38),
     inset 0 0 60px rgba(168,85,247,.10);
+  transform: translate3d(0, 0, 0);
+  will-change: transform, opacity;
+  pointer-events: none;
 }
 
-@keyframes pulse {
-  50% {
-    transform: scale(1.08);
-    opacity: .75;
-  }
+.logo-motion {
+  width: min(610px, 90%);
+  position: relative;
+  z-index: 2;
+  animation: logoFloat60 3.8s cubic-bezier(.45, 0, .55, 1) infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  contain: layout paint;
+}
+
+.logo-motion::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168,85,247,.34), rgba(124,58,237,.18) 38%, transparent 70%);
+  filter: blur(24px);
+  opacity: .85;
+  transform: translate3d(0, 0, 0);
 }
 
 .main-logo {
-  width: min(610px, 90%);
+  width: 100%;
+  height: auto;
+  display: block;
   object-fit: contain;
   position: relative;
   z-index: 2;
-  filter:
-    drop-shadow(0 0 35px rgba(168,85,247,.95))
-    drop-shadow(0 0 70px rgba(124,58,237,.55));
-  animation: float 4s ease-in-out infinite;
   image-rendering: auto;
   backface-visibility: hidden;
-  transform: translateZ(0);
+  transform: translate3d(0, 0, 0);
+  filter: none;
+  animation: none;
+  user-select: none;
+  pointer-events: none;
 }
 
-@keyframes float {
+@keyframes logoFloat60 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+
   50% {
-    transform: translateY(-18px);
+    transform: translate3d(0, -16px, 0);
+  }
+}
+
+@keyframes logoGlow60 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: .84;
+  }
+
+  50% {
+    transform: translate3d(0, 0, 0) scale(1.06);
+    opacity: .68;
   }
 }
 
@@ -493,6 +536,22 @@ h1 {
     0 0 28px #a855f7,
     inset 0 0 20px rgba(168,85,247,.35);
   opacity: 0.95;
+  animation: platform60 3.8s cubic-bezier(.45, 0, .55, 1) infinite;
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  pointer-events: none;
+}
+
+@keyframes platform60 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scaleX(1);
+    opacity: .95;
+  }
+
+  50% {
+    transform: translate3d(0, 2px, 0) scaleX(.96);
+    opacity: .74;
+  }
 }
 
 /* Features */
@@ -620,9 +679,9 @@ h1 {
     min-height: 520px;
   }
 
-  .main-logo {
+  .logo-motion {
     width: min(520px, 90%);
-  object-fit:contain;}
+  }
 }
 
 @media (max-width: 760px) {
@@ -805,10 +864,18 @@ h1 {
 
 /* High resolution logo rendering */
 .brand img,
+.logo-motion,
 .main-logo {
   image-rendering: auto;
   backface-visibility: hidden;
-  transform: translateZ(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-motion,
+  .logo-glow,
+  .platform {
+    animation: none !important;
+  }
 }
 
 </style>
@@ -830,7 +897,7 @@ h1 {
 
 <header class="nav">
   <div class="brand">
-    <img src="/flux.png?v=30" srcset="/flux-1024.png?v=30 1024w, /flux-2048.png?v=30 2048w, /flux-4096.png?v=30 4096w" sizes="50px" width="50" height="50" alt="FluxStrap Roblox Performance Launcher Logo" decoding="async">
+    <img src="/flux-512.png?v=31" srcset="/flux-512.png?v=31 512w, /flux-1024.png?v=31 1024w" sizes="50px" width="50" height="50" alt="FluxStrap Roblox Performance Launcher Logo" decoding="async">
     <span>FluxStrap</span>
   </div>
 
@@ -922,7 +989,9 @@ h1 {
   <div class="logo-area">
     <div class="logo-glow"></div>
     <div class="logo-ring"></div>
-    <img class="main-logo" src="/flux.png?v=30" srcset="/flux-1024.png?v=30 1024w, /flux-2048.png?v=30 2048w, /flux-4096.png?v=30 4096w" sizes="(max-width: 1050px) 90vw, 610px" alt="FluxStrap Roblox Performance Launcher Logo" decoding="async" fetchpriority="high">
+    <div class="logo-motion">
+      <img class="main-logo" src="/flux-2048.png?v=31" srcset="/flux-1024.png?v=31 1024w, /flux-2048.png?v=31 2048w" sizes="(max-width: 1050px) 90vw, 610px" alt="FluxStrap Roblox Performance Launcher Logo" decoding="async" fetchpriority="high">
+    </div>
     <div class="platform"></div>
   </div>
 </section>
