@@ -1111,7 +1111,7 @@ h1 {
   <div class="stat">
     <div class="stat-icon">↓</div>
     <div>
-      <b id="downloadStat">0</b>
+      <b id="downloadStat">100+</b>
       <span data-i18n="stat4">Total Downloads</span>
     </div>
   </div>
@@ -1154,19 +1154,38 @@ const downloadBtn = document.getElementById("downloadBtn");
 const downloadCount = document.getElementById("downloadCount");
 const downloadStat = document.getElementById("downloadStat");
 
-const COUNTER_KEY = "fluxstrap_official_downloads_2026";
+/*
+  Sayaç mantığı:
+  - Gerçek tıklama sayısı arka planda +1 artar.
+  - Kullanıcıya sadece her 50 tıklamada bir +50 artmış gibi gösterilir.
+  - 0-49 tıklama  = 100+
+  - 50-99 tıklama = 150+
+  - 100-149 tıklama = 200+
+*/
+const COUNTER_KEY = "fluxstrap_official_download_clicks_2026_start100_v3";
+const START_DOWNLOADS = 100;
+const STEP_CLICKS = 50;
+const STEP_DOWNLOADS = 50;
 
-function showCount(value) {
-  const number = Number(value || 0);
-  downloadCount.textContent = number.toLocaleString();
-  downloadStat.textContent = number.toLocaleString();
+function getPublicDownloadCount(realClicks) {
+  const clicks = Number(realClicks || 0);
+  return START_DOWNLOADS + Math.floor(clicks / STEP_CLICKS) * STEP_DOWNLOADS;
+}
+
+function showCount(realClicks) {
+  const publicCount = getPublicDownloadCount(realClicks);
+  const text = `${publicCount.toLocaleString()}+`;
+
+  downloadCount.textContent = text;
+  downloadStat.textContent = text;
 }
 
 async function getDownloads() {
   try {
     const res = await fetch(`https://countapi.mileshilliard.com/api/v1/get/${COUNTER_KEY}`);
     const data = await res.json();
-    showCount(data.value || 0);
+
+    showCount(typeof data.value === "number" ? data.value : 0);
   } catch (error) {
     console.log("Download count get error:", error);
     showCount(0);
@@ -1177,7 +1196,8 @@ async function addDownload() {
   try {
     const res = await fetch(`https://countapi.mileshilliard.com/api/v1/hit/${COUNTER_KEY}`);
     const data = await res.json();
-    showCount(data.value || 0);
+
+    showCount(typeof data.value === "number" ? data.value : 0);
   } catch (error) {
     console.log("Download count add error:", error);
   }
